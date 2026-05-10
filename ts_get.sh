@@ -123,25 +123,36 @@ ts_get() {
     echo ""
 }
 
-# --- Example Usage ---
-# Clear the screen and show a header for the demo
-clear
-echo -e "${C_MAGENTA}=======================================${C_RESET}"
-echo -e "${C_BOLD}  Timestamp Conversion Script Demo${C_RESET}"
-echo -e "${C_MAGENTA}=======================================${C_RESET}\n"
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    if [[ -z "$1" ]]; then
+        echo "Usage: $0 <time-range> [--demo]" >&2
+        echo "Try: $0 \"last hour\" or $0 --demo" >&2
+        exit 1
+    fi
 
+    if [[ "$1" == "--demo" ]]; then
+        # --- Example Usage ---
+        # Clear the screen and show a header for the demo
+        clear
+        echo -e "${C_MAGENTA}=======================================${C_RESET}"
+        echo -e "${C_BOLD}  Timestamp Conversion Script Demo${C_RESET}"
+        echo -e "${C_MAGENTA}=======================================${C_RESET}\n"
 
-echo -e "${C_BLUE}--- Ranges Relative to Now ---${C_RESET}"
-ts_get "last hour"
-ts_get "today"
+        echo -e "${C_BLUE}--- Ranges Relative to Now ---${C_RESET}"
+        ts_get "last hour"
+        ts_get "today"
 
-echo -e "${C_BLUE}--- Fixed Full-Day Periods ---${C_RESET}"
-ts_get "yesterday"
-ts_get "last Fri"
+        echo -e "${C_BLUE}--- Fixed Full-Day Periods ---${C_RESET}"
+        ts_get "yesterday"
+        ts_get "last Fri"
 
-echo -e "${C_BLUE}--- Fixed Multi-Day/Week Periods ---${C_RESET}"
-ts_get "last week"
-ts_get "last Mon-Wed"
+        echo -e "${C_BLUE}--- Fixed Multi-Day/Week Periods ---${C_RESET}"
+        ts_get "last week"
+        ts_get "last Mon-Wed"
 
-echo -e "${C_BLUE}--- Error Handling ---${C_RESET}"
-ts_get "some future date"
+        echo -e "${C_BLUE}--- Error Handling ---${C_RESET}"
+        ts_get "some future date"
+    else
+        ts_get "$1"
+    fi
+fi
